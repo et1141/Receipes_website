@@ -33,9 +33,9 @@
         {% if average_rating is not None %}
             {% for _ in "12345" %}
                 {% if forloop.counter <= average_rating %}
-                    <span class="star">&#9733;</span> <!-- gwiazda pełna -->
+                    <span class="star">&#9733;</span> <!-- full star -->
                 {% else %}
-                    <span class="star">&#9734;</span> <!-- gwiazda pusta -->
+                    <span class="star">&#9734;</span> <!-- empty star-->
                 {% endif %}
             {% endfor %}
         {% else %}

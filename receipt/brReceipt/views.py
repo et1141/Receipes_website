@@ -11,6 +11,8 @@ from .models import Category
 from .models import RatesReceipt
 from .models import RatesCategory
 
+from .forms import ReceiptForm
+
 
 
 ##convention from brGuitars
@@ -28,8 +30,11 @@ def categories(request):
 def category_recipes(request, category_id):
     receipts = Receipt.objects.filter(id_category=category_id).values() 
     category = get_object_or_404(Category, pk=category_id)
+    average_rating = RatesCategory.objects.filter(id_category=category).aggregate(Avg('score')) 
+    average_rating_value = average_rating.get('score__avg', None)
+
 #    recipes = Receipt.objects.filter(category=category_id)
-    return render(request, 'brReceipt/category_recipes.html', {'category': category, 'receipts': receipts})
+    return render(request, 'brReceipt/category_recipes.html', {'category': category, 'receipts': receipts ,'average_rating':average_rating_value})
 
 def single_receipt(request, category_id, receipt_id):
     receipt = get_object_or_404(Receipt, id=receipt_id)
@@ -58,12 +63,12 @@ def rate_receipt(request, receipt_id):
     return redirect('index')
 
 @login_required
-def rate_category(request, receipt_id):
+def rate_category(request, category_id):
     if request.method == 'POST':
         score = request.POST.get('score')
         user = request.user
         #to check if user already rated
-        existing_rate = RatesReceipt.objects.filter(id_user=user, id_receipt=receipt_id).first()
+        existing_rate = RatesCategory.objects.filter(id_user=user, id_category=category_id).first()
 
         if existing_rate:
             #just update if user already rated
@@ -71,8 +76,8 @@ def rate_category(request, receipt_id):
             existing_rate.save()
         else:
             #reate new if user didn't rated
-            receipt = get_object_or_404(Receipt, pk=receipt_id)
-            new_rate = RatesReceipt(score=score, id_user=user, id_receipt=receipt)
+            category = get_object_or_404(Category, pk=category_id)
+            new_rate = RatesCategory(score=score, id_user=user, id_category=category)
             new_rate.save()
     return redirect('index')
 
@@ -80,10 +85,17 @@ def rate_category(request, receipt_id):
 
 @login_required
 def add_receipt(request):
-    # Twój obecny kod widoku add_receipt
-    return 
-def search_receipts(request):
-    return
+    if request.method == 'POST':
+        form = ReceiptForm(request.POST)
+        if form.is_valid():
+            receipt = form.save(commit=False)
+            receipt.id_author = request.user  # Przypisanie autora
+            receipt.save()
+            return redirect('index')
+    else:
+        form = ReceiptForm()
+
+    return render(request, 'brReceipt/add_receipt.html', {'form': form})
 
 def register(request):
     if request.method == 'POST':
@@ -96,3 +108,8 @@ def register(request):
         form = UserCreationForm()
     
     return render(request, 'brReceipt/register.html', {'form': form})
+
+
+def search_receipts(request):
+    ##uzupelnij
+    return

@@ -11,9 +11,9 @@
         {% if average_rating is not None %}
             {% for _ in "12345" %}
                 {% if forloop.counter <= average_rating %}
-                    <span class="star">&#9733;</span> <!-- gwiazda pełna -->
+                    <span class="star">&#9733;</span> 
                 {% else %}
-                    <span class="star">&#9734;</span> <!-- gwiazda pusta -->
+                    <span class="star">&#9734;</span> 
                 {% endif %}
             {% endfor %}
         {% else %}
@@ -23,15 +23,15 @@
 </div>
 
 {% if user.is_authenticated %}
-    <form method="post" action="{% url 'rate_receipt' receipt_id=receipt.id %}">
+    <form method="post" action="{% url 'rate_category' category_id=category.id %}">
       {% csrf_token %}
-      <label for="score">Rate this receipe (1-5):</label>
+      <label for="score">Rate this category (1-5):</label>
       <input type="number" name="score" min="1" max="5" required>
       <button type="submit">Submit Rating</button>
     </form>
 
   {% else %}
-    <a href="/brReceipt/login/">Login to rate this receipe</p> </a>
+    <a href="/brReceipt/login/">Login to rate this category</p> </a>
   {% endif %}
 
 
