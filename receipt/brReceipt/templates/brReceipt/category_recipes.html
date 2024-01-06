@@ -1,0 +1,52 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="/brReceipt/categories">Back</a>
+
+<h1>{{ category.name }}</h1>
+<div class="rating">
+    <h3>
+        Current Rating:
+        {% if average_rating is not None %}
+            {% for _ in "12345" %}
+                {% if forloop.counter <= average_rating %}
+                    <span class="star">&#9733;</span> <!-- gwiazda pełna -->
+                {% else %}
+                    <span class="star">&#9734;</span> <!-- gwiazda pusta -->
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            No ratings yet
+        {% endif %}
+    </h3>
+</div>
+
+{% if user.is_authenticated %}
+    <form method="post" action="{% url 'rate_receipt' receipt_id=receipt.id %}">
+      {% csrf_token %}
+      <label for="score">Rate this receipe (1-5):</label>
+      <input type="number" name="score" min="1" max="5" required>
+      <button type="submit">Submit Rating</button>
+    </form>
+
+  {% else %}
+    <a href="/brReceipt/login/">Login to rate this receipe</p> </a>
+  {% endif %}
+
+
+
+
+{% for receipt in receipts %}
+    <div>
+        <a href="/brReceipt/categories/{{category.id}}/{{receipt.id}}">
+            <img src="{{ receipt.img }}" alt="{{ receipt.name }}" width="100" height="100">
+            <p>{{ receipt.name }}</p>
+        </a>
+    </div>
+{% endfor %}
+
+
+
+
+{% endblock %}

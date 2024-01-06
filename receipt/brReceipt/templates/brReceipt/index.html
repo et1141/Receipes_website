@@ -1,0 +1,29 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Receipts Database</title>
+</head>
+
+<body>
+    <form method="get" action="{% url 'search_receipts' %}">
+        <input type="text" name="query" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    
+    <!-- Dodane informacje o zalogowanym użytkowniku lub formularz logowania -->
+    <div style="float: right;">
+        {% if user.is_authenticated %}
+            <p>Hey! {{ user.username }}</p>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+
+<h2><a href="/brReceipt/categories"> Categories</a></h2>
+<h2><a href="/brReceipt/random_receipt"> Random Receipt</a></h2>
+<h2><a href="/add_receipt"> Add Receipt</a></h2>
+<h2><a href="/ranking"> Ranking</a></h2>
+
+</body>
+</html>

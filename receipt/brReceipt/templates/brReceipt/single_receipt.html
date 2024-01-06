@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="/brReceipt/">Main Page</a>
+<a href="{% url 'category_recipes' category_id=category_id %}">Back</a>
+  <div>
+    <h2>{{ receipt.name }}</h2>
+    <img src="{{ receipt.img }}" alt="{{ receipt.name }}" width="400" height="400">
+    <h3>Ingredients:</h3>
+    <ul>
+      {% for ingredient in receipt.ingredients %}
+        <li>{{ ingredient }}</li>
+      {% endfor %}
+    </ul>    
+    <h3>Preparing</h3>
+    <p>{{ receipt.content }}</p>
+
+  {% if user.is_authenticated %}
+    <form method="post" action="{% url 'rate_receipt' receipt_id=receipt.id %}">
+      {% csrf_token %}
+      <label for="score">Rate this receipe (1-5):</label>
+      <input type="number" name="score" min="1" max="5" required>
+      <button type="submit">Submit Rating</button>
+    </form>
+
+  {% else %}
+    <a href="/brReceipt/login/">Login to rate this receipe</p> </a>
+  {% endif %}
+
+  <div class="rating">
+    <h3>
+        Current Rating:
+        {% if average_rating is not None %}
+            {% for _ in "12345" %}
+                {% if forloop.counter <= average_rating %}
+                    <span class="star">&#9733;</span> <!-- gwiazda pełna -->
+                {% else %}
+                    <span class="star">&#9734;</span> <!-- gwiazda pusta -->
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            No ratings yet
+        {% endif %}
+    </h3>
+</div>
+{% endblock %}
