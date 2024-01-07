@@ -36,11 +36,10 @@
 
 
 
-
 {% for receipt in receipts %}
-    <div>
+    <div class='recipe-card'>
         <a href="/brReceipt/categories/{{category.id}}/{{receipt.id}}">
-            <img src="{{ receipt.img }}" alt="{{ receipt.name }}" width="100" height="100">
+            <img src="{{ receipt.img }}" alt="{{ receipt.name }}" width="150" height="150">
             <p>{{ receipt.name }}</p>
         </a>
     </div>

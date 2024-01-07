@@ -3,59 +3,44 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f8f8;
-    margin: 0;
-    padding: 0;
+  
 }
 
-/* Navigation Bar */
-nav {
-    background-color: #333;
-    overflow: hidden;
-}
-
-nav a {
-    float: left;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-/* Header */
 h1 {
     text-align: center;
     color: #333;
 }
 
-/* Main Content */
+/* content */
 .container {
     width: 80%;
     margin: auto;
 }
+.container_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
-/* Recipe Cards */
+
+/* single recipe  */
 .recipe-card {
-    width: 30%;
-    margin: 20px;
-    float: left;
+    margin: 10px;
     background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
 }
 
 .recipe-card img {
-    width: 100%;
-    height: auto;
-}
+    display: block;
+    margin: 0 auto;
+  }
 
 .recipe-card p {
     padding: 10px;
     text-align: center;
 }
 
-/* Form Styling */
+/* FROM (login e.g) */
 form {
     width: 50%;
     margin: auto;
@@ -86,7 +71,7 @@ form button {
     cursor: pointer;
 }
 
-/* Rating Styling */
+/*RATING */
 .rating {
     text-align: center;
     margin-top: 20px;

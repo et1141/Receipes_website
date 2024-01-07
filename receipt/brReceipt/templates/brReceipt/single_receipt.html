@@ -5,7 +5,7 @@
 <a href="{% url 'category_recipes' category_id=category_id %}">Back</a>
   <div>
     <h2>{{ receipt.name }}</h2>
-    <img src="{{ receipt.img }}" alt="{{ receipt.name }}" width="400" height="400">
+    <img src="{{ receipt.img }}" alt="{{ receipt.name }}" width="200" height="200">
     <h3>Ingredients:</h3>
     <ul>
       {% for ingredient in receipt.ingredients %}

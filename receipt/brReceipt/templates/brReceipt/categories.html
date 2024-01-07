@@ -5,9 +5,9 @@
 <a href="/brReceipt/">Main Page</a></p>
     <h1>Select category</h1>
     {% for category in categories %}
-        <div>
+        <div class="recipe-card">
             <a href="/brReceipt/categories/{{category.id}}/">
-                <img src="{{ category.img }}" alt="{{ category.name }}" width="100" height="100">
+                <img src="{{ category.img }}" alt="{{ category.name }}" width="150" height="150">
                 <p>{{ category.name }}</p>
             </a>
         </div>

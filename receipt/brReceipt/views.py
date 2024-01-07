@@ -132,8 +132,10 @@ def show_ranking(request):
     ranked_receipts = []
     for receipt in receipts:
         average_score = RatesReceipt.objects.filter(id_receipt=receipt).aggregate(Avg('score'))
-        average_score = average_score.get('score__avg', 0)
-        ranked_receipts.append({'receipt': receipt, 'average_score': average_score})
+        average_score = average_score.get('score__avg', None)
+
+        if average_score is not None:
+            ranked_receipts.append({'receipt': receipt, 'average_score': average_score})
      
     ranked_receipts = sorted(ranked_receipts, key=lambda x: x['average_score'], reverse=True)
 

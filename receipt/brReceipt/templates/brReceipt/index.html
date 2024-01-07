@@ -8,12 +8,6 @@
 
 
 <body>
-    <form method="get" action="{% url 'search_receipts' %}">
-        <input type="text" name="query" placeholder="Search...">
-        <button type="submit">Search</button>
-    </form>
-    
-    <!-- Dodane informacje o zalogowanym użytkowniku lub formularz logowania -->
     <div style="float: right;">
         {% if user.is_authenticated %}
             <p>Hey! {{ user.username }}</p>
@@ -23,10 +17,23 @@
         {% endif %}
     </div>
 
+    <form method="get" action="{% url 'search_receipts' %}">
+        <input type="text" name="query" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+<div class="container_main">
+
 <h2><a href="/brReceipt/categories"> Categories</a></h2>
 <h2><a href="/brReceipt/random_receipt"> Random Receipt</a></h2>
+{% if user.is_authenticated %}
 <h2><a href="/brReceipt/add_receipt"> Add Receipt</a></h2>
-<h2><a href="/brReceipt/ranking"> Ranking</a></h2>
 
+
+  {% else %}
+    <a href="/brReceipt/login/"><h2>Login to add receipe</h2> </a>
+  {% endif %}
+
+<h2><a href="/brReceipt/ranking"> Ranking</a></h2>
+</div>
 </body>
 </html>
