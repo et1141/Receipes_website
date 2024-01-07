@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.db.models import Avg
+import random
 
 from .models import Receipt
 from .models import Category
@@ -111,5 +112,30 @@ def register(request):
 
 
 def search_receipts(request):
-    ##uzupelnij
-    return
+    search_record = request.GET.get('query', '')  # Pobierz wartość wprowadzoną w formularzu
+
+    receipts = Receipt.objects.filter(name__icontains=search_record)| Receipt.objects.filter(ingredients__icontains=search_record)
+    if not receipts.exists():
+        receipts = None
+    return render(request, 'brReceipt/search_results.html', {'receipts': receipts})
+
+def random_receipt(request):
+    receipts = Receipt.objects.all()
+    receipt = random.choice(receipts)
+    average_rating = RatesReceipt.objects.filter(id_receipt=receipt).aggregate(Avg('score')) 
+    average_rating_value = average_rating.get('score__avg', None)
+
+    return render(request, 'brReceipt/single_receipt.html',{'category_id':receipt.id_category.id, 'receipt':receipt, 'average_rating':average_rating_value})
+
+def show_ranking(request):
+    receipts = Receipt.objects.all()
+    ranked_receipts = []
+    for receipt in receipts:
+        average_score = RatesReceipt.objects.filter(id_receipt=receipt).aggregate(Avg('score'))
+        average_score = average_score.get('score__avg', 0)
+        ranked_receipts.append({'receipt': receipt, 'average_score': average_score})
+     
+    ranked_receipts = sorted(ranked_receipts, key=lambda x: x['average_score'], reverse=True)
+
+    return render(request, 'brReceipt/ranking.html', {'ranked_receipts': ranked_receipts})
+ 

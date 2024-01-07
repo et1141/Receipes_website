@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<a href="/brReceipt/">Main Page</a>
+
   <h2>Add New Receipt</h2>
   <form method="post" action="{% url 'add_receipt' %}">
     {% csrf_token %}

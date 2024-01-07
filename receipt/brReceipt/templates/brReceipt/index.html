@@ -2,7 +2,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Receipts Database</title>
+{% load static %}
+  <link rel="stylesheet" href="{% static 'style.css' %}">  
 </head>
+
 
 <body>
     <form method="get" action="{% url 'search_receipts' %}">

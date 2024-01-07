@@ -20,8 +20,10 @@ urlpatterns = [
 
     path('login/', auth_views.LoginView.as_view(template_name='brReceipt/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('register/', views.register, name='register')
+    path('register/', views.register, name='register'),
 
+    path('ranking/', views.show_ranking,name='ranking'),
+    path('random_receipt',views.random_receipt,name='random_receipt')
 
 
 ]

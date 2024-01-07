@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="/brReceipt/">Main Page</a>
+{% if ranked_receipts is not None %}
+    <h1>Ranking:</h1>
+    {% for ranked_receipt in ranked_receipts %}
+        <div>
+            <a href="/brReceipt/categories/{{ ranked_receipt.receipt.id_category.id }}/{{ ranked_receipt.receipt.id }}">
+                <img src="{{ ranked_receipt.receipt.img }}" alt="{{ ranked_receipt.receipt.name }}" width="100" height="100">
+                <p>{{ ranked_receipt.receipt.name }} - Average Score: {{ ranked_receipt.average_score }}</p>
+            </a>
+        </div>
+    {% endfor %}
+{% else %}
+    <h1>No results </h1>
+{% endif %}
+{% endblock %}
